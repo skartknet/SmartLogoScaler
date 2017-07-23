@@ -1,0 +1,10 @@
+c:\users\koben\documents\visual studio 2017\Projects\ImageNormalizer\ImageNormalizer\bin\Debug\ImageNormalizer.exe.config
+c:\users\koben\documents\visual studio 2017\Projects\ImageNormalizer\ImageNormalizer\bin\Debug\ImageNormalizer.exe
+c:\users\koben\documents\visual studio 2017\Projects\ImageNormalizer\ImageNormalizer\bin\Debug\ImageNormalizer.pdb
+c:\users\koben\documents\visual studio 2017\Projects\ImageNormalizer\ImageNormalizer\obj\Debug\ImageNormalizer.csprojResolveAssemblyReference.cache
+c:\users\koben\documents\visual studio 2017\Projects\ImageNormalizer\ImageNormalizer\obj\Debug\ImageNormalizer.Properties.Resources.resources
+c:\users\koben\documents\visual studio 2017\Projects\ImageNormalizer\ImageNormalizer\obj\Debug\ImageNormalizer.csproj.GenerateResource.Cache
+c:\users\koben\documents\visual studio 2017\Projects\ImageNormalizer\ImageNormalizer\obj\Debug\ImageNormalizer.exe
+c:\users\koben\documents\visual studio 2017\Projects\ImageNormalizer\ImageNormalizer\obj\Debug\ImageNormalizer.pdb
+c:\users\koben\documents\visual studio 2017\Projects\ImageNormalizer\ImageNormalizer\obj\Debug\ImageNormalizer.frmMain.resources
+C:\Users\koben\Documents\Visual Studio 2017\Projects\ImageNormalizer\ImageNormalizer\bin\Debug\ImageProcessor.dll
