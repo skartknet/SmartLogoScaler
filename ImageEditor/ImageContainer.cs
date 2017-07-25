@@ -98,7 +98,7 @@ namespace ImageEditor
                 return fittedSize;
             }
         }
-        public Size ContainerSize { get; set; }
+        public Size ContainerSize { get; set; }        
 
         #endregion
 

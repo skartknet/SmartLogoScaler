@@ -1,4 +1,5 @@
 ﻿
+using ImageEditor;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
@@ -96,18 +97,30 @@ namespace ImageNormalizer
 
 
 
-        public static void SaveToFile()
+        public static void SaveToFile(string path, Size container, IEnumerable<ImageContainer> images)
         {
 
-            /* foreach image Save:
+            /* for each image Save:
              * Container Height
              * Container Width
-             * Image Height
-             * Image Width
-             * Other reference Height
-             * Other Reference Width
+             * Container Ratio             
+             * Orig Image Height
+             * Orig Image Width
+             * Fitted Image Height
+             * Fitted Image Width             
+             * Image Ratio
              * Scale of image
             */
+            StringBuilder line = new StringBuilder();
+            line.Append($"{container.Height},{container.Width},{GetRatio(container).ToString()}");
+            foreach (var i in images)
+            {
+                line.Append($"{i.OrigSize.Height},{i.OrigSize.Width},{i.FittedSize.Height},{i.FittedSize.Width},{GetRatio(i.FittedSize).ToString()},{i.Scale}");
+            }
+
+
+
+            File.AppendAllText(path, line.ToString());
         }
     }
 }
