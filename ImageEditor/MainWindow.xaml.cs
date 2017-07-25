@@ -8,22 +8,30 @@ using Microsoft.Win32;
 using ImageNormalizer;
 using System.IO;
 using ImageProcessor;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace ImageEditor
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        List<ImageContainer> _listViewItems;
+        
         Size _containerSize;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyChange(PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(this, e);
+        }
 
         public MainWindow()
         {
             InitializeComponent();
-
-            _listViewItems = new List<ImageContainer>();
+            DataContext = this;
             initContainer();
         }
 
@@ -44,6 +52,19 @@ namespace ImageEditor
 
         }
 
+        private ObservableCollection<ImageContainer> _listViewItems = new ObservableCollection<ImageContainer>();
+
+        public ObservableCollection<ImageContainer> ListViewItems
+        {
+            get { return _listViewItems; }
+            set {
+                _listViewItems = value;
+                if (this.PropertyChanged != null)
+                    NotifyChange(new PropertyChangedEventArgs("ListViewItems"));
+            }
+        }
+
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog
@@ -60,17 +81,19 @@ namespace ImageEditor
 
             if (result == true)
             {
-                if (_listViewItems.Count + dlg.FileNames.Count() >= 5)
+                if (ListViewItems.Count + dlg.FileNames.Count() >= 5)
                 {
                     lblError.Content = "Max number of files: 5";
                 }
                 else
                 {                                        
                     LoadImages(dlg);
+                    if (this.PropertyChanged != null)
+                        NotifyChange(new PropertyChangedEventArgs("ListViewItems"));
                 }
             }
-
-            ImagesControl.ItemsSource = _listViewItems;
+            
+            
         }
 
         private void LoadImages(OpenFileDialog dlg)
@@ -93,7 +116,9 @@ namespace ImageEditor
 
         private void btnRestart_Click(object sender, RoutedEventArgs e)
         {
-            _listViewItems = new List<ImageContainer>();
+            _listViewItems.Clear();
+            if (this.PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("ListViewItems"));
         }
     }
 }
