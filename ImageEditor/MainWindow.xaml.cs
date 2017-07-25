@@ -60,61 +60,40 @@ namespace ImageEditor
 
             if (result == true)
             {
-                if (dlg.FileNames.Count() > 5)
+                if (_listViewItems.Count + dlg.FileNames.Count() >= 5)
                 {
                     lblError.Content = "Max number of files: 5";
                 }
-                // Open document
-                string filename = dlg.FileName;
-                OpenImages(dlg);
+                else
+                {                                        
+                    LoadImages(dlg);
+                }
             }
 
             ImagesControl.ItemsSource = _listViewItems;
         }
 
-        private void OpenImages(OpenFileDialog dlg)
+        private void LoadImages(OpenFileDialog dlg)
         {
-
-
             foreach (var imagePath in dlg.FileNames)
             {
                 byte[] photoBytes = File.ReadAllBytes(imagePath);
 
 
-                using (MemoryStream inStream = new MemoryStream(photoBytes))
-                {
-                    MemoryStream outStream = new MemoryStream();
+                var container = new ImageContainer
+                (
+                    Path.GetFileNameWithoutExtension(imagePath),
+                   new MemoryStream(photoBytes),
+                   _containerSize
+                );
 
-                    // Initialize the ImageFactory using the overload to preserve EXIF metadata.
-                    using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
-                    {
-
-                        imageFactory.Load(inStream).EntropyCrop(10).Save(outStream);
-
-                        var bpm = new BitmapImage();
-                        bpm.BeginInit();
-                        bpm.StreamSource = outStream;
-                        bpm.EndInit();
-                        var origSize = new Size(bpm.Width, bpm.Height);
-                        var fittedSize = ImageEqualizer.FitImageSizeToContainer(new Size(bpm.Width, bpm.Height), new Size(_containerSize.Width, _containerSize.Height));
-
-                        var container = new ImageContainer
-                        {
-                            Name = Path.GetFileNameWithoutExtension(imagePath),
-                            Image = bpm,
-                            Scale = 1,
-                            OrigSize = origSize,
-                            FittedSize = fittedSize,
-                            ContainerSize = _containerSize
-                        };
-
-                        _listViewItems.Add(container);
-                    }
-
-                }
+                _listViewItems.Add(container);
             }
         }
 
-
+        private void btnRestart_Click(object sender, RoutedEventArgs e)
+        {
+            _listViewItems = new List<ImageContainer>();
+        }
     }
 }
