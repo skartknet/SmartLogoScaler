@@ -13,3 +13,4 @@ C:\Users\koben\documents\visual studio 2017\Projects\ImageNormalizer\ImageEditor
 C:\Users\koben\documents\visual studio 2017\Projects\ImageNormalizer\ImageEditor\obj\Debug\ImageEditor.exe
 C:\Users\koben\documents\visual studio 2017\Projects\ImageNormalizer\ImageEditor\obj\Debug\ImageEditor.pdb
 C:\Users\koben\Documents\Visual Studio 2017\Projects\ImageNormalizer\ImageEditor\bin\Debug\ImageProcessor.dll
+C:\Users\koben\Documents\Visual Studio 2017\Projects\ImageNormalizer\ImageEditor\obj\Debug\GeneratedInternalTypeHelper.g.cs

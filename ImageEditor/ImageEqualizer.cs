@@ -97,7 +97,7 @@ namespace ImageNormalizer
 
 
 
-        public static void SaveToFile(string path, Size container, IEnumerable<ImageContainer> images)
+        public static string GetLines(Size container, IEnumerable<ImageContainer> images)
         {
 
             /* for each image Save:
@@ -115,12 +115,24 @@ namespace ImageNormalizer
             line.Append($"{container.Height},{container.Width},{GetRatio(container).ToString()}");
             foreach (var i in images)
             {
-                line.Append($"{i.OrigSize.Height},{i.OrigSize.Width},{i.FittedSize.Height},{i.FittedSize.Width},{GetRatio(i.FittedSize).ToString()},{i.Scale}");
+                line.Append($",{i.OrigSize.Height},{i.OrigSize.Width},{i.FittedSize.Height},{i.FittedSize.Width},{GetRatio(i.FittedSize).ToString()},{i.Scale.ToString()}");
             }
 
 
+            return line.ToString();            
+        }
 
-            File.AppendAllText(path, line.ToString());
+        public static string GetFileHeader(int images = 5)
+        {
+            var builder = new StringBuilder();
+            builder.Append("Container Height, Container Width,Container Ratio");
+
+            for (int i = 0; i < images; i++)
+            {
+                builder.Append($",Orig Image Height {i},Orig Image Width {i},Fitted Image Height {i},Fitted Image Width {i},Image Ratio {i}, Scale of image {i}");
+            }
+
+            return builder.ToString();
         }
     }
 }

@@ -37,7 +37,7 @@ namespace ImageEditor
                 NotifyChange(new PropertyChangedEventArgs("Scale"));
             }
         }
-        public MemoryStream OrigImage { get; set; }
+        public byte[] OrigImage { get; set; }
 
         private byte _threshold;
         public string EntropyThreshold
@@ -79,12 +79,15 @@ namespace ImageEditor
         {
             get
             {
-                var bmp = new BitmapImage();
-                bmp.BeginInit();
-                bmp.StreamSource = OrigImage;
-                bmp.EndInit();
+                using (var stream = new MemoryStream(OrigImage))
+                {
+                    var bmp = new BitmapImage();
+                    bmp.BeginInit();
+                    bmp.StreamSource = stream;
+                    bmp.EndInit();
 
-                return new Size(bmp.Width, bmp.Height);
+                    return new Size(bmp.Width, bmp.Height);
+                }
             }
         }
 
@@ -98,13 +101,13 @@ namespace ImageEditor
                 return fittedSize;
             }
         }
-        public Size ContainerSize { get; set; }        
+        public Size ContainerSize { get; set; }
 
         #endregion
 
 
 
-        public ImageContainer(string name, MemoryStream origImage, Size containerSize)
+        public ImageContainer(string name, byte[] origImage, Size containerSize)
         {
             this.Name = name;
             this.OrigImage = origImage;
@@ -114,7 +117,7 @@ namespace ImageEditor
             _threshold = 10;
         }
 
-        
+
 
     }
 

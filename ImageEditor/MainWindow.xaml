@@ -4,24 +4,34 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageEditor"
+        xmlns:converter ="clr-namespace:ImageEditor.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="616.581" WindowState="Maximized"
         >
+    <Window.Resources>
+        <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    </Window.Resources>
     <DockPanel VerticalAlignment="Stretch" Height="Auto" >
-        <Label x:Name="lblError" Content="" HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" Width="141" Grid.ColumnSpan="2" DockPanel.Dock="Top" Background="Red" Foreground="White"/>
+        <Label x:Name="lblOpenFilePath" Content="{Binding FilePath}" HorizontalAlignment="Center" Margin="0,20,0,0"  DockPanel.Dock="Top"/>
         <StackPanel VerticalAlignment="Top" DockPanel.Dock="Left" Margin="10">
-            <Button x:Name="btnOpenFile" Content="Open File"  Width="111" HorizontalAlignment="Left" Height="39" Click="btnOpenFile_Click"/>
-            <Button Content="Load Images" Margin="0,20,0,0" Width="111" Click="Button_Click" HorizontalAlignment="Left" Height="39"/>
+            <Button x:Name="btnCreateFile" IsEnabled="{Binding IsFileLoaded, Converter={StaticResource InverseBooleanConverter}}" Content="Create File"  Width="111" HorizontalAlignment="Left" Height="39" Click="btnCreateFile_Click" />
+            <Button x:Name="btnOpenFile" IsEnabled="{Binding IsFileLoaded, Converter={StaticResource InverseBooleanConverter}}" Content="Open File"  Margin="0,20,0,0" Width="111" HorizontalAlignment="Left" Height="39" Click="btnOpenFile_Click"/>
+            <Button Content="Load Images" IsEnabled="{Binding IsFileLoaded}" x:Name="btnOpenImages" Margin="0,20,0,0" Width="111" Click="btnOpenImages_Click" HorizontalAlignment="Left" Height="39"/>
             <Label Content="Container ratio" VerticalAlignment="Top" Width="94" HorizontalAlignment="Left" Margin="0,10,0,0" />
             <TextBox x:Name="txtRatio" IsEnabled="{Binding RatioEnabled}" Height="23" Text="1" Width="47" RenderTransformOrigin="0.555,-4.947" Margin="0,10,0,0"  HorizontalAlignment="Left"/>
-            <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="110" Height="40" Click="btnSave_Click"/>
+            <Button x:Name="btnSave" IsEnabled="{Binding IsFileLoaded}" Content="Save" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="110" Height="40" Click="btnSave_Click"/>
             <Button x:Name="btnRestart" Content="Restart" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="110" Height="40" Click="btnRestart_Click"/>
         </StackPanel>
-        <StackPanel HorizontalAlignment="Left" Height="Auto" Margin="59.645,10,0,0" VerticalAlignment="Top" Width="Auto" >
+        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Height="Auto" Margin="59.645,10,0,0" VerticalAlignment="Top" Width="Auto" >
             <ItemsControl Name="ImagesControl" ItemsSource="{Binding ListViewItems}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Margin="0,20,20,0">
+                        <StackPanel Orientation="Horizontal" Margin="0,20,20,0" Width="500">
                             <Rectangle Width="{Binding ContainerSize.Width}" Height="{Binding ContainerSize.Height}" VerticalAlignment="Center" HorizontalAlignment="Center" Stroke="Black" StrokeThickness="1">
                                 <Rectangle.Fill>
                                     <ImageBrush ImageSource="{Binding CroppedImage}"  Stretch="Uniform">
@@ -37,9 +47,9 @@
                                 </Rectangle.Fill>
                             </Rectangle>
 
-                            <StackPanel Orientation="Vertical" Width="300">
-                                <Label Content="{Binding Name}" />
-                                <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical" Width="180" Margin="10,0,0,0">
+                                <Label Content="{Binding Name}" Margin="0,0,0,20" FontSize="18" />
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
                                     <Label Content="Threshold" />
                                     <TextBox Name="Threshold" Width="50" Text="{Binding EntropyThreshold}" />
                                     <Button Content="Refresh"
@@ -47,8 +57,11 @@
                                             Command="{Binding Refresh}"
                                             CommandParameter="{Binding ElementName=elmnt,Path=DataContext}"/>
                                 </StackPanel>
-                                <Slider Name="slValue" Value="{Binding Scale}" Maximum="1" Minimum="0" SmallChange="0.1" />
-                                <TextBox Text="{Binding ElementName=slValue, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
+                                <Label Content="Scale"></Label>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="{Binding ElementName=slValue, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
+                                    <Slider Name="slValue" Value="{Binding Scale}" Maximum="1" Minimum="0" SmallChange="0.1" Width="100" />
+                                </StackPanel>
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>

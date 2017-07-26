@@ -66,6 +66,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="ImageContainer.cs" />
     <Compile Include="ImageEqualizer.cs" />
     <Compile Include="MainWindow.xaml.cs">
