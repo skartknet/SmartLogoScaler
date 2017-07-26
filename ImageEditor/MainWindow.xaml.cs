@@ -133,8 +133,8 @@ namespace ImageEditor
             // Set filter for file extension and default file extension
             dlg.DefaultExt = ".jpg";
             dlg.Multiselect = true;
-            dlg.Filter = "Image (.jpg)|*.jpg";
-            dlg.Filter = "Image (.png)|*.png";
+            dlg.Filter = "Images (*.jpg, *.png)|*.jpg;*.png|All files(*.*)|*.*";            
+
 
             // Display OpenFileDialog by calling ShowDialog method
             Nullable<bool> result = dlg.ShowDialog();
@@ -190,6 +190,7 @@ namespace ImageEditor
             {
                 File.AppendAllLines(FilePath, new[] { line });
                 MessageBox.Show("Line saved.", "Success");
+                ListViewItems.Clear();
             }
             catch (Exception ex)
             {

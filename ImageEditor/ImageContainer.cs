@@ -95,8 +95,9 @@ namespace ImageEditor
         {
             get
             {
+                var croppedSize = new Size(CroppedImage.Width, CroppedImage.Height);
                 var fittedSize = ImageEqualizer
-                                    .FitImageSizeToContainer(OrigSize, new Size(ContainerSize.Width, ContainerSize.Height));
+                                    .FitImageSizeToContainer(croppedSize, new Size(ContainerSize.Width, ContainerSize.Height));
 
                 return fittedSize;
             }
